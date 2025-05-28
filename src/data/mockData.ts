@@ -1,14 +1,49 @@
 import type { Monitoreo, Usuario } from '../types/types';
 import { TipoPosicion, TipoEquipo, TipoCentro } from '../types/types';
 
-const mockOwner: Usuario = {
-  id: '1',
-  nombre: 'Juan Pérez',
-  rol: 'Team Leader',
-  posicion: TipoPosicion.TeamLeader,
-  equipo: TipoEquipo.MercadoEnvios,
-  centro: TipoCentro.HSP,
-};
+// Mock Users
+export const mockUsers: Usuario[] = [
+  {
+    id: '1',
+    nombre: 'Juan Pérez',
+    rol: 'Team Leader',
+    posicion: TipoPosicion.TeamLeader,
+    equipo: TipoEquipo.MercadoEnvios,
+    centro: TipoCentro.HSP,
+  },
+  {
+    id: '2',
+    nombre: 'Ana Silva',
+    rol: 'Supervisor',
+    posicion: TipoPosicion.Supervisor,
+    equipo: TipoEquipo.MercadoEnvios,
+    centro: TipoCentro.HSP,
+  },
+  {
+    id: '3',
+    nombre: 'Carlos Rodríguez',
+    rol: 'Supervisor',
+    posicion: TipoPosicion.Supervisor,
+    equipo: TipoEquipo.FintechPagos,
+    centro: TipoCentro.HSP,
+  },
+  {
+    id: '4',
+    nombre: 'María González',
+    rol: 'Team Leader',
+    posicion: TipoPosicion.TeamLeader,
+    equipo: TipoEquipo.FintechPagos,
+    centro: TipoCentro.HSP,
+  },
+  {
+    id: '5',
+    nombre: 'Roberto Martínez',
+    rol: 'Gerente',
+    posicion: TipoPosicion.Gerente,
+    equipo: TipoEquipo.MktplVendedor,
+    centro: TipoCentro.HSP,
+  }
+];
 
 export const monitoreosMock: Monitoreo[] = [
   {
@@ -21,7 +56,7 @@ export const monitoreosMock: Monitoreo[] = [
     fechaCreacion: new Date('2024-03-01').toISOString(),
     fechaActualizacion: new Date('2024-03-02').toISOString(),
     estado: 'Completado',
-    ownerActual: mockOwner,
+    ownerActual: mockUsers[0], // Juan Pérez (TL)
     bienvenida: 'Alto',
     exploracion: 'Medio Alto',
     guiaAsesoramiento: 'Alto',
@@ -40,7 +75,7 @@ export const monitoreosMock: Monitoreo[] = [
     fechaCreacion: new Date('2024-03-02').toISOString(),
     fechaActualizacion: new Date('2024-03-02').toISOString(),
     estado: 'Pendiente',
-    ownerActual: mockOwner,
+    ownerActual: mockUsers[3], // María González (TL)
     bienvenida: 'Medio Alto',
     exploracion: 'Medio Alto',
     guiaAsesoramiento: 'Medio Bajo',
@@ -58,7 +93,7 @@ export const monitoreosMock: Monitoreo[] = [
     fechaCreacion: new Date('2024-03-03').toISOString(),
     fechaActualizacion: new Date('2024-03-03').toISOString(),
     estado: 'En Proceso',
-    ownerActual: mockOwner,
+    ownerActual: mockUsers[1], // Ana Silva (Sup)
     bienvenida: 'Medio Bajo',
     exploracion: 'Bajo',
     guiaAsesoramiento: 'Medio Bajo',
@@ -76,7 +111,12 @@ export const monitoreosMock: Monitoreo[] = [
     fechaCreacion: new Date('2024-03-04').toISOString(),
     fechaActualizacion: new Date('2024-03-04').toISOString(),
     estado: 'Pendiente',
-    ownerActual: mockOwner,
+    ownerActual: mockUsers[2], // Carlos Rodríguez (Sup)
+    bienvenida: 'Medio Alto',
+    exploracion: 'Alto',
+    guiaAsesoramiento: 'Alto',
+    cierre: 'Medio Alto',
+    adhesionGeneral: 'Alto',
     historialAcciones: []
   },
   {
@@ -89,7 +129,7 @@ export const monitoreosMock: Monitoreo[] = [
     fechaCreacion: new Date('2024-03-05').toISOString(),
     fechaActualizacion: new Date('2024-03-05').toISOString(),
     estado: 'Completado',
-    ownerActual: mockOwner,
+    ownerActual: mockUsers[4], // Roberto Martínez (Gerente)
     bienvenida: 'Alto',
     exploracion: 'Alto',
     guiaAsesoramiento: 'Alto',
