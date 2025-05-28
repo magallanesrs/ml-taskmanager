@@ -88,15 +88,12 @@ export interface Monitoreo {
   tipo: 'Monitoreo';
   numeroCaso: string;
   titulo: string;
-  descripcion: string;
-  prioridad: 'baja' | 'media' | 'alta';
+  comentario: string;
   estado: EstadoMonitoreo;
   completado: boolean;
   fechaCreacion: string;
   fechaActualizacion: string;
   asignadoA?: string;
-  cola: TipoCola;
-  colaActual: TipoCola;
   ownerActual: Usuario;
   nivelTag?: NivelTag[];
   historialAcciones: any[];

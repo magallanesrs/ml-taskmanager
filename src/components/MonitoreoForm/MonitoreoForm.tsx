@@ -9,6 +9,7 @@ import {
   Paper,
   Grid,
   Divider,
+  TextField,
 } from '@mui/material';
 import type { Monitoreo, NivelTag } from '../../types/types';
 
@@ -73,6 +74,22 @@ export const MonitoreoForm: React.FC<MonitoreoFormProps> = ({
 
       <Grid container spacing={2}>
         <Grid item xs={12}>
+          {/* Campo de Comentario */}
+          <FormControl fullWidth sx={{ mb: 3 }}>
+            <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'medium' }}>
+              Comentario
+            </Typography>
+            <TextField
+              multiline
+              rows={4}
+              value={monitoreo.comentario}
+              onChange={(e) => onChange('comentario', e.target.value)}
+              variant="outlined"
+              fullWidth
+            />
+            <Divider sx={{ mt: 2 }} />
+          </FormControl>
+
           {/* Campos de evaluación en el orden especificado */}
           {renderEvaluacionField(
             'Bienvenida',
