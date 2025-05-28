@@ -1,4 +1,5 @@
-import { Paper, Typography, Box, LinearProgress } from '@mui/material';
+import React from 'react';
+import { Box, Typography, LinearProgress } from '@mui/material';
 import type { Monitoreo } from '../types/types';
 
 interface MonitoringProgressProps {
@@ -6,28 +7,21 @@ interface MonitoringProgressProps {
 }
 
 export const MonitoringProgress = ({ monitoreos }: MonitoringProgressProps) => {
-  const completedTasks = monitoreos.filter(m => m.completado).length;
+  const completedTasks = monitoreos.filter(m => m.estado === 'Completado').length;
   const totalTasks = monitoreos.length;
-  const progress = (completedTasks / totalTasks) * 100;
+  const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
   return (
-    <Paper sx={{ p: 2 }}>
-      <Typography variant="h6" gutterBottom>
-        Progreso de Atención
-      </Typography>
-      <Box sx={{ mt: 2 }}>
+    <Box sx={{ width: '100%', mb: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
         <Typography variant="body2" color="text.secondary">
-          {`${completedTasks} de ${totalTasks} casos atendidos`}
+          Progreso de Monitoreos
         </Typography>
-        <LinearProgress 
-          variant="determinate" 
-          value={progress} 
-          sx={{ mt: 1, mb: 1 }}
-        />
         <Typography variant="body2" color="text.secondary">
-          {`${Math.round(progress)}% de casos resueltos`}
+          {completedTasks} de {totalTasks}
         </Typography>
       </Box>
-    </Paper>
+      <LinearProgress variant="determinate" value={progress} />
+    </Box>
   );
 }; 

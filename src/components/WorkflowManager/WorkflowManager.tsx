@@ -156,6 +156,7 @@ const ReglaDialog = ({ open, regla, onClose, onGuardar }: ReglaDialogProps) => {
       nombre,
       condiciones: {
         nivelTag,
+        colaOrigen: 'General' as TipoCola,
       },
       accion: {
         colaDestino,

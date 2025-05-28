@@ -46,6 +46,7 @@ const reglasIniciales: ReglaTransicion[] = [
     nombre: 'Casos Medio Alto a Gerencia',
     condiciones: {
       nivelTag: ['Medio Alto'],
+      colaOrigen: 'General',
     },
     accion: {
       colaDestino: 'Gerencia',

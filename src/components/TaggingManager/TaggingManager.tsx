@@ -60,12 +60,13 @@ export const TaggingManager = ({
   const [openNewDialog, setOpenNewDialog] = useState(false);
   const [monitoreoSeleccionado, setMonitoreoSeleccionado] = useState<Monitoreo | null>(null);
 
-  const puedeTaggear = (nivelTag: NivelTag): boolean => {
+  const puedeTaggear = (nivelTag: NivelTag | NivelTag[]): boolean => {
+    const nivel = Array.isArray(nivelTag) ? nivelTag[0] : nivelTag;
     switch (usuarioActual.rol) {
       case 'Team Leader':
-        return ['Bajo', 'Medio Bajo'].includes(nivelTag);
+        return ['Bajo', 'Medio Bajo'].includes(nivel);
       case 'Supervisor':
-        return ['Bajo', 'Medio Bajo', 'Medio Alto'].includes(nivelTag);
+        return ['Bajo', 'Medio Bajo', 'Medio Alto'].includes(nivel);
       case 'Gerente':
         return true;
       default:
@@ -207,7 +208,7 @@ interface TaggingDialogProps {
   usuariosDisponibles: Usuario[];
   onClose: () => void;
   onGuardar: (monitoreo: Monitoreo) => void;
-  puedeTaggear: (nivelTag: NivelTag) => boolean;
+  puedeTaggear: (nivelTag: NivelTag | NivelTag[]) => boolean;
 }
 
 const TaggingDialog = ({
@@ -238,7 +239,7 @@ const TaggingDialog = ({
       cierre,
       adhesionGeneral,
       casoDeOrgullo,
-      fechaActualizacion: new Date(),
+      fechaActualizacion: new Date().toISOString(),
       historialAcciones: [
         ...monitoreo.historialAcciones,
         {
@@ -247,6 +248,16 @@ const TaggingDialog = ({
           fecha: new Date(),
           usuario: usuarioActual,
           detalles: {
+            bienvenidaAnterior: monitoreo.bienvenida,
+            bienvenidaNueva: bienvenida,
+            exploracionAnterior: monitoreo.exploracion,
+            exploracionNueva: exploracion,
+            guiaAsesoramientoAnterior: monitoreo.guiaAsesoramiento,
+            guiaAsesoramientoNueva: guiaAsesoramiento,
+            cierreAnterior: monitoreo.cierre,
+            cierreNueva: cierre,
+            adhesionGeneralAnterior: monitoreo.adhesionGeneral,
+            adhesionGeneralNueva: adhesionGeneral,
             casoDeOrgulloAnterior: monitoreo.casoDeOrgullo,
             casoDeOrgulloNuevo: casoDeOrgullo,
           },
@@ -402,54 +413,20 @@ const NuevoMonitoreoDialog = ({
   const handleGuardar = () => {
     const nuevoMonitoreo: Monitoreo = {
       id: crypto.randomUUID(),
-      numeroTarea: generarNumeroTarea(),
       tipo: 'Monitoreo',
       numeroCaso,
       titulo: obtenerTituloSegunTipo('Monitoreo'),
       descripcion,
-      fechaCreacion: new Date(),
+      fechaCreacion: new Date().toISOString(),
+      fechaActualizacion: new Date().toISOString(),
       estado: 'Pendiente',
-      nivelTag,
-      colaActual: casoDeOrgullo ? 'Gerencia' : colaActual,
+      nivelTag: [nivelTag],
+      cola: 'General',
+      colaActual: colaActual,
       ownerActual: usuarioActual,
-      historialTransiciones: [
-        {
-          id: crypto.randomUUID(),
-          fecha: new Date(),
-          colaOrigen: 'General',
-          colaDestino: casoDeOrgullo ? 'Gerencia' : colaActual,
-          ownerAnterior: usuarioActual,
-          ownerNuevo: usuarioActual,
-          usuario: usuarioActual,
-          motivo: 'Creación de monitoreo',
-        }
-      ],
-      prioridad,
-      casoDeOrgullo,
-      marcarParaCalibracion: marcarParaCalibracion ? {
-        tipo: marcarParaCalibracion,
-        fechaMarcado: new Date(),
-        marcadoPor: usuarioActual,
-      } : undefined,
-      historialAcciones: [
-        {
-          id: crypto.randomUUID(),
-          tipo: marcarParaCalibracion ? 'Marcado para Calibración' : 'Creacion',
-          fecha: new Date(),
-          usuario: usuarioActual,
-          detalles: {
-            comentario: [
-              'Monitoreo creado',
-              marcarParaCalibracion && `[CALIBRACIÓN] Marcado para ${marcarParaCalibracion}`,
-              casoDeOrgullo && '[CASO DE ORGULLO] Asignado automáticamente a cola de Gerencia y Calibración Managers'
-            ].filter(Boolean).join('\n'),
-            casoDeOrgulloNuevo: casoDeOrgullo,
-            colaNueva: casoDeOrgullo ? 'Gerencia' : colaActual,
-            ownerNuevo: usuarioActual,
-            tipoCalibracion: marcarParaCalibracion,
-          },
-        },
-      ],
+      prioridad: prioridad,
+      completado: false,
+      historialAcciones: []
     };
 
     onGuardar(nuevoMonitoreo);

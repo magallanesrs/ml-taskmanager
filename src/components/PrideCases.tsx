@@ -7,6 +7,10 @@ interface PrideCasesProps {
 }
 
 export const PrideCases = ({ monitoreos }: PrideCasesProps) => {
+  const pendingPrideCases = monitoreos
+    .filter(m => m.prioridad === 'alta' && m.estado !== 'Completado')
+    .length;
+
   const casosUrgentes = monitoreos
     .filter(m => m.prioridad === 'alta' && !m.completado)
     .sort((a, b) => b.fechaCreacion.getTime() - a.fechaCreacion.getTime());
@@ -45,6 +49,16 @@ export const PrideCases = ({ monitoreos }: PrideCasesProps) => {
           </ListItem>
         )}
       </List>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 2 }}>
+        <Typography variant="body2" color="text.secondary">
+          Casos de Orgullo Pendientes
+        </Typography>
+        <Chip
+          label={pendingPrideCases}
+          color={pendingPrideCases > 0 ? 'warning' : 'success'}
+          size="small"
+        />
+      </Box>
     </Paper>
   );
 }; 

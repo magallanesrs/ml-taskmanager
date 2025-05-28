@@ -83,34 +83,35 @@ export interface ReglaTransicion {
   activo: boolean;
 }
 
-export interface Monitoreo extends ElementoCola {
+export interface Monitoreo {
+  id: string;
   tipo: 'Monitoreo';
   numeroCaso: string;
   titulo: string;
   descripcion: string;
-  fechaCreacion: Date;
-  fechaInicio?: Date;  // Cuando se comienza a trabajar en el monitoreo
-  fechaFinalizacion?: Date;  // Cuando se completa o rechaza el monitoreo
-  tiempoEjecucion?: number;  // Tiempo en minutos entre inicio y finalización
-  tiempoTotal?: number;  // Tiempo en minutos desde creación hasta finalización
-  fechaVencimientoSLA?: Date;
+  prioridad: 'baja' | 'media' | 'alta';
   estado: EstadoMonitoreo;
-  nivelTag?: NivelTag;
-  historialAcciones: AccionMonitoreo[];
-  cumplioSLA?: boolean;
-  tiempoResolucion?: number; // en minutos
-  casoDeOrgullo: boolean;
-  marcarParaCalibracion?: {
-    tipo: 'Calibración Supervisores' | 'Calibración Managers';
-    fechaMarcado: Date;
-    marcadoPor: Usuario;
-  };
-  // Nuevos campos para el formulario
+  completado: boolean;
+  fechaCreacion: string;
+  fechaActualizacion: string;
+  asignadoA?: string;
+  cola: TipoCola;
+  colaActual: TipoCola;
+  ownerActual: Usuario;
+  nivelTag?: NivelTag[];
+  historialAcciones: any[];
+  // Campos de evaluación
   bienvenida?: NivelTag;
   exploracion?: NivelTag;
   guiaAsesoramiento?: NivelTag;
   cierre?: NivelTag;
   adhesionGeneral?: NivelTag;
+  casoDeOrgullo?: boolean;
+  marcarParaCalibracion?: {
+    tipo: 'Calibración Supervisores' | 'Calibración Managers';
+    fechaMarcado: string;
+    marcadoPor: Usuario;
+  };
 }
 
 export interface Calibracion extends ElementoCola {
